@@ -1,0 +1,50 @@
+{
+  "name": "Odoo 19 Dev",
+
+  // Usa el docker-compose del proyecto — no instala nada extra en el host
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "odoo",
+  "workspaceFolder": "/workspace",
+
+  // Monta tu repo dentro del contenedor de Odoo
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
+
+  // Reenvía el puerto 8069 para que puedas abrir Odoo en el browser de Codespaces
+  "forwardPorts": [8069, 8072],
+  "portsAttributes": {
+    "8069": {
+      "label": "Odoo Web",
+      "onAutoForward": "openBrowser"
+    },
+    "8072": {
+      "label": "Odoo Longpolling",
+      "onAutoForward": "silent"
+    }
+  },
+
+  // Extensiones de VS Code útiles para desarrollo Odoo
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.debugpy",
+        "odoo-ide.odoo-owl-vscode",
+        "wholroyd.jinja",
+        "redhat.vscode-xml",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "editor.formatOnSave": true,
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.python"
+        }
+      }
+    }
+  },
+
+  // Al abrir Codespaces, Odoo ya debería estar corriendo gracias a docker-compose
+  "postStartCommand": "echo 'Odoo disponible en el puerto 8069 →  abre la pestaña PORTS'"
+}
